@@ -1,0 +1,9 @@
+:root{ --accent:#4f46e5; --bg:#f7f7fb; --card:#fff; }
+body{ font-family: Inter, system-ui, Arial; background:var(--bg); margin:0; color:#111; }
+.container{ max-width:1000px; margin:0 auto; padding:1rem; }
+.card{ background:var(--card); padding:1rem; border-radius:10px; box-shadow:0 6px 18px rgba(16,24,40,0.06); }
+button{ background:var(--accent); color:white; border:none; padding:0.6rem 1rem; border-radius:8px; cursor:pointer; }
+input, select, textarea{ padding:0.5rem; border-radius:6px; border:1px solid #ddd; width:100%; box-sizing:border-box; }
+.nav{ background:#111827; color:white; padding:0.75rem 1rem; }
+.nav a{ color:white; margin-right:1rem; text-decoration:none; }
+.flex{ display:flex; gap:1rem; align-items:center; }
