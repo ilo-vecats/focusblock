@@ -1,4 +1,4 @@
-# FocusBlock - MERN Starter
+# FocusBlock 
 
 This repository contains a minimal MERN + JWT starter project for *FocusBlock*, a focus-blocking app.
 
