@@ -7,8 +7,7 @@ const connectDB = require('./config/db');
 const app = express();
 connectDB();
 
-// Configure CORS to allow both local development and production frontend URLs
-// You can set FRONTEND_URL to a single URL or comma-separated list: "http://localhost:3000,https://your-frontend.onrender.com"
+
 const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
   : ["http://localhost:3000"];
@@ -22,7 +21,7 @@ app.use(cors({
       return callback(null, true);
     }
     
-    // Log CORS requests for debugging
+
     if (origin) {
       console.log('CORS request from origin:', origin);
     }
