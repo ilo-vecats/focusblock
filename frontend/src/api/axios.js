@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-// Ensure the API URL ends with /api
+
 const getApiUrl = () => {
   const url = process.env.REACT_APP_API_URL || 'http://localhost:5050/api';
-  // Remove trailing slash and ensure /api is at the end
   const cleanUrl = url.replace(/\/$/, '');
   return cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
 };
