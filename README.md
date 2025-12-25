@@ -61,5 +61,148 @@ A productivity app to block distracting websites and stay focused. Features user
 
 **Note**: For production deployment, set these environment variables in your hosting platform (Render, Railway, etc.)
 
+## 🔌 API Endpoints
+
+### Base URL
+- **Production**: `https://focusblock.onrender.com/api`
+- **Local**: `http://localhost:5050/api`
+
+### Authentication Endpoints
+
+#### Register
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+#### Login
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Response:
+{
+  "token": "jwt_token_here",
+  "user": {
+    "id": "user_id",
+    "username": "john_doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+### Blocked Sites Endpoints
+
+#### Get All Blocked Sites
+```http
+GET /api/blocked
+Authorization: Bearer {token}
+```
+
+#### Add Blocked Site
+```http
+POST /api/blocked
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "url": "facebook.com",
+  "category": "Social Media",
+  "schedule": {
+    "enabled": true,
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "preset": "work-hours"
+  }
+}
+```
+
+#### Update Blocked Site
+```http
+PUT /api/blocked/:id
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "isActive": true,
+  "category": "Entertainment",
+  "schedule": { ... }
+}
+```
+
+#### Delete Blocked Site
+```http
+DELETE /api/blocked/:id
+Authorization: Bearer {token}
+```
+
+### Statistics Endpoints
+
+#### Get Statistics
+```http
+GET /api/stats?days=7
+Authorization: Bearer {token}
+
+Response:
+{
+  "dailyStats": [...],
+  "summary": {
+    "totalBlockedSites": 5,
+    "totalActiveBlocks": 3
+  }
+}
+```
+
+#### Record Blocked Attempt
+```http
+POST /api/stats/blocked
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "url": "facebook.com"
+}
+```
+
+### Health Check
+
+#### API Health
+```http
+GET /api/health
+
+Response:
+{
+  "status": "ok",
+  "message": "FocusBlock API is running"
+}
+```
+
+#### API Info
+```http
+GET /api
+
+Response:
+{
+  "status": "ok",
+  "message": "FocusBlock API is running",
+  "version": "1.0.0",
+  "endpoints": { ... }
+}
+```
+
+## 📝 Notes
+
 This starter focuses on functionality rather than production hardening.
 
