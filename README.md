@@ -1,11 +1,29 @@
 # FocusBlock 
 
-This repository contains a minimal MERN + JWT starter project for *FocusBlock*, a focus-blocking app.
+A productivity app to block distracting websites and stay focused. Features user authentication, website blocking, dashboard management, schedule presets, categories, and Chrome extension integration.
+
+## 🌐 Live Demo
+
+- **Frontend**: [https://focusblock-frontend.onrender.com](https://focusblock-frontend.onrender.com)
+- **Backend API**: [https://focusblock.onrender.com/api](https://focusblock.onrender.com/api)
+
+## ✨ Features
+
+- 🔐 User authentication (Register/Login with JWT)
+- 🚫 Block distracting websites
+- ⏰ Schedule-based blocking (Work Hours, Weekends, Custom)
+- 📁 Organize sites by categories (Social Media, Entertainment, etc.)
+- 🔍 Search and filter blocked sites
+- 📊 Statistics and productivity tracking
+- ✅ Bulk operations (enable/disable/delete multiple sites)
+- 🎨 Modern, responsive UI
+- 🔌 Chrome extension integration (coming soon)
 
 ## Structure
 
 - backend/ - Express + MongoDB API
-- frontend/ - React SPA (minimal)
+- frontend/ - React SPA
+- focusblock-extension/ - Chrome extension for blocking sites
 
 ## Quick start (local)
 
