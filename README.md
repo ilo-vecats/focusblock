@@ -30,5 +30,18 @@ This repository contains a minimal MERN + JWT starter project for *FocusBlock*, 
    - npm install
    - npm start
 
+## Environment Variables
+
+### Backend (.env)
+- `MONGO_URI` - MongoDB connection string (local or Atlas)
+- `JWT_SECRET` - Secret key for JWT token signing
+- `FRONTEND_URL` - Frontend URL(s) for CORS. Can be single URL or comma-separated: `http://localhost:3000,https://your-frontend.onrender.com`
+- `PORT` - Server port (default: 5050)
+
+### Frontend (.env)
+- `REACT_APP_API_URL` - Backend API URL (must start with `REACT_APP_`). Example: `http://localhost:5050/api` or `https://your-backend.onrender.com/api`
+
+**Note**: For production deployment, set these environment variables in your hosting platform (Render, Railway, etc.)
+
 This starter focuses on functionality rather than production hardening.
 
