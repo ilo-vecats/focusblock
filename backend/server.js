@@ -30,9 +30,19 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'FocusBlock API is running' });
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/blocked', require('./routes/blocked'));
 app.use('/api/stats', require('./routes/stats'));
+
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found', path: req.path });
+});
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
