@@ -30,14 +30,5 @@ This repository contains a minimal MERN + JWT starter project for *FocusBlock*, 
    - npm install
    - npm start
 
-## Deployment
-
-For detailed deployment instructions using MongoDB Atlas, see [DEPLOYMENT.md](./DEPLOYMENT.md).
-
-Quick deployment options:
-- **Backend**: Deploy to [Railway](https://railway.app) or [Render](https://render.com)
-- **Frontend**: Deploy to [Vercel](https://vercel.com) or [Netlify](https://netlify.com)
-- **Database**: Use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (free tier available)
-
 This starter focuses on functionality rather than production hardening.
 
