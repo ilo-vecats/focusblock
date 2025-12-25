@@ -38,6 +38,33 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
+// Root API endpoint - provides API information
+app.get('/api', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'FocusBlock API is running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: {
+        register: 'POST /api/auth/register',
+        login: 'POST /api/auth/login',
+        users: 'GET /api/auth/users'
+      },
+      blocked: {
+        list: 'GET /api/blocked',
+        add: 'POST /api/blocked',
+        update: 'PUT /api/blocked/:id',
+        delete: 'DELETE /api/blocked/:id'
+      },
+      stats: {
+        get: 'GET /api/stats?days=7',
+        record: 'POST /api/stats/blocked'
+      }
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'FocusBlock API is running' });
@@ -49,7 +76,11 @@ app.use('/api/stats', require('./routes/stats'));
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
-  res.status(404).json({ error: 'API endpoint not found', path: req.path });
+  res.status(404).json({ 
+    error: 'API endpoint not found', 
+    path: req.path,
+    message: 'Available endpoints: /api, /api/health, /api/auth/*, /api/blocked/*, /api/stats/*'
+  });
 });
 
 const PORT = process.env.PORT || 5050;
