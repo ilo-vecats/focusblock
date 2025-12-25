@@ -3,6 +3,7 @@ import api from '../api/axios';
 
 export default function Statistics({ user }) {
   const [stats, setStats] = useState([]);
+  const [summary, setSummary] = useState({ totalBlockedSites: 0, totalActiveBlocks: 0 });
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(7);
 
@@ -14,7 +15,14 @@ export default function Statistics({ user }) {
     try {
       setLoading(true);
       const res = await api.get(`/stats?days=${days}`);
-      setStats(res.data);
+      // Handle both old format (array) and new format (object with dailyStats and summary)
+      if (Array.isArray(res.data)) {
+        setStats(res.data);
+        setSummary({ totalBlockedSites: 0, totalActiveBlocks: 0 });
+      } else {
+        setStats(res.data.dailyStats || []);
+        setSummary(res.data.summary || { totalBlockedSites: 0, totalActiveBlocks: 0 });
+      }
     } catch (err) {
       console.error('Error fetching stats:', err);
     } finally {
@@ -24,12 +32,18 @@ export default function Statistics({ user }) {
 
   const totalBlockedAttempts = stats.reduce((sum, stat) => sum + (stat.blockedAttempts || 0), 0);
   const totalFocusTime = stats.reduce((sum, stat) => sum + (stat.focusTime || 0), 0);
-  const uniqueSites = new Set();
-  stats.forEach(stat => {
-    if (stat.sitesBlocked) {
-      stat.sitesBlocked.forEach(site => uniqueSites.add(site));
-    }
-  });
+  // Use summary.totalBlockedSites if available, otherwise calculate from stats
+  const uniqueSitesCount = summary.totalBlockedSites > 0 
+    ? summary.totalBlockedSites 
+    : (() => {
+        const uniqueSites = new Set();
+        stats.forEach(stat => {
+          if (stat.sitesBlocked) {
+            stat.sitesBlocked.forEach(site => uniqueSites.add(site));
+          }
+        });
+        return uniqueSites.size;
+      })();
 
   return (
     <div style={{ minHeight: 'calc(100vh - 80px)', padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -99,9 +113,9 @@ export default function Statistics({ user }) {
           border: '1px solid #e5e7eb'
         }}>
           <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#a78bfa', marginBottom: '0.5rem' }}>
-            {uniqueSites.size}
+            {uniqueSitesCount}
           </div>
-          <div style={{ color: '#6b7280' }}>Unique Sites Blocked</div>
+          <div style={{ color: '#6b7280' }}>Total Sites Blocked</div>
         </div>
       </div>
 

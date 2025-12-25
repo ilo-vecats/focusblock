@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Stats = require('../models/Stats');
+const Blocked = require('../models/Blocked');
 
 // GET /api/stats → get user statistics
 router.get('/', auth, async (req, res) => {
@@ -15,7 +16,20 @@ router.get('/', auth, async (req, res) => {
       date: { $gte: startDate }
     }).sort({ date: -1 });
 
-    res.json(stats);
+    // Also get total blocked sites count
+    const totalBlockedSites = await Blocked.countDocuments({ 
+      user: req.user.id,
+      isActive: true 
+    });
+
+    // Return stats with additional summary info
+    res.json({
+      dailyStats: stats,
+      summary: {
+        totalBlockedSites: totalBlockedSites,
+        totalActiveBlocks: totalBlockedSites
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
