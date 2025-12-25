@@ -16,7 +16,7 @@ router.get('/', auth, async (req, res) => {
 
 // POST /api/blocked → add a new blocked site
 router.post('/', auth, async (req, res) => {
-  const { url, schedule } = req.body;
+  const { url, schedule, category } = req.body;
   
   if (!url) return res.status(400).json({ msg: 'URL is required' });
 
@@ -24,7 +24,8 @@ router.post('/', auth, async (req, res) => {
     const newSite = new Blocked({
       url,
       user: req.user.id,
-      schedule: schedule || { enabled: false }
+      schedule: schedule || { enabled: false },
+      category: category || 'General'
     });
     await newSite.save();
     res.json(newSite);
@@ -45,6 +46,7 @@ router.put('/:id', auth, async (req, res) => {
 
     if (req.body.schedule !== undefined) site.schedule = req.body.schedule;
     if (req.body.isActive !== undefined) site.isActive = req.body.isActive;
+    if (req.body.category !== undefined) site.category = req.body.category;
 
     await site.save();
     res.json(site);
